@@ -16,7 +16,15 @@ router.get("/", async (req, res) => {
 // ➕ Thêm sinh viên mới
 router.post("/", async (req, res) => {
   try {
-    const newStudent = new Student(req.body);
+    const { fullName, studentId, className, email, role } = req.body;
+const newStudent = new Student({
+  name: fullName, // ánh xạ đúng field trong MongoDB
+  studentId,
+  className,
+  email,
+  role
+});
+
     await newStudent.save();
     res.status(201).json(newStudent);
   } catch (err) {
