@@ -8,24 +8,24 @@ dotenv.config();
 
 const app = express();
 
-// ✅ Cấu hình Middleware
+// ✅ Middleware
 app.use(cors({
-  origin: "*", // Cho phép frontend truy cập từ mọi domain (Vercel, localhost,...)
+  origin: "*", // Cho phép frontend truy cập từ bất kỳ domain nào
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type"],
 }));
 app.use(express.json());
 
-// ✅ Kết nối MongoDB Atlas
+// ✅ Kết nối MongoDB
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb+srv://admin:orpk0DDYd0XrPaKB@student-management.m8jm0pj.mongodb.net/studentdb";
 mongoose.connect(MONGODB_URI)
   .then(() => console.log("✅ Kết nối MongoDB thành công"))
   .catch((err) => console.error("❌ Lỗi MongoDB:", err));
 
-// ✅ Route API chính
+// ✅ API routes
 app.use("/api/users", userRoutes);
 
-// ✅ Route test (để kiểm tra server có hoạt động không)
+// ✅ Test route
 app.get("/", (req, res) => {
   res.send("EduChain Backend đang hoạt động 🚀");
 });

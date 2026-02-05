@@ -3,7 +3,7 @@ import User from "../models/User.js";
 
 const router = express.Router();
 
-// 🟢 Lấy danh sách người dùng
+// 🟢 Lấy toàn bộ người dùng
 router.get("/", async (req, res) => {
   try {
     const users = await User.find();
