@@ -1,37 +1,30 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-import dotenv from "dotenv";
-import userRoutes from "./routes/userRoutes.js";
-
-dotenv.config();
+import studentRoutes from "./routes/studentRoutes.js";
 
 const app = express();
 
-// ✅ Middleware
 app.use(cors({
   origin: "*",
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type"],
 }));
+
 app.use(express.json());
 
-// ✅ Kết nối MongoDB
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb+srv://admin:orpk0DDYd0XrPaKB@student-management.m8jm0pj.mongodb.net/studentdb";
-mongoose.connect(MONGODB_URI)
+// ✅ Kết nối MongoDB Atlas
+mongoose.connect(
+  "mongodb+srv://admin:orpk0DDYd0XrPaKB@student-management.m8jm0pj.mongodb.net/studentdb?retryWrites=true&w=majority"
+)
   .then(() => console.log("✅ Kết nối MongoDB thành công"))
-  .catch((err) => console.error("❌ Lỗi MongoDB:", err));
+  .catch((err) => console.error("❌ Lỗi kết nối MongoDB:", err));
 
-// ✅ API routes
-app.use("/api/users", userRoutes);
+app.use("/api/students", studentRoutes);
 
-// ✅ Test route
 app.get("/", (req, res) => {
-  res.send("EduChain Backend đang hoạt động 🚀");
+  res.send("EduChain backend hoạt động 🚀");
 });
 
-// ✅ Lắng nghe server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`✅ Server đang chạy tại cổng ${PORT}`);
-});
+app.listen(PORT, () => console.log(`✅ Server đang chạy tại cổng ${PORT}`));
