@@ -3,29 +3,28 @@ import Student from "../models/Student.js";
 
 const router = express.Router();
 
-// Get all
+// 🟢 Lấy danh sách sinh viên
 router.get("/", async (req, res) => {
-  const students = await Student.find();
-  res.json(students);
+  try {
+    const students = await Student.find();
+    res.json(students);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
-// Create
+// 🟢 Thêm sinh viên mới
 router.post("/", async (req, res) => {
-  const student = new Student(req.body);
-  await student.save();
-  res.status(201).json(student);
+  try {
+    const student = await Student.create(req.body);
+    res.status(201).json(student);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
 });
 
-// Update
-router.put("/:id", async (req, res) => {
-  const updated = await Student.findByIdAndUpdate(req.params.id, req.body, { new: true });
-  res.json(updated);
-});
-
-// Delete
+// 🟢 Xóa sinh viên theo ID
 router.delete("/:id", async (req, res) => {
-  await Student.findByIdAndDelete(req.params.id);
-  res.json({ message: "Deleted successfully" });
-});
-
-export default router;
+  try {
+    await Student.findByIdAndDelete(req.params.id);
+    res.json({ message: "Đã xóa sinh viên" });
