@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import studentRoutes from "./routes/studentRoutes.js";
+
 import teacherRoutes from "./routes/teacherRoutes.js";
 
 const app = express();
