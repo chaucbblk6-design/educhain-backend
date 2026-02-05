@@ -3,28 +3,36 @@ import Student from "../models/Student.js";
 
 const router = express.Router();
 
-// 🟢 Lấy danh sách sinh viên
+// 📦 Lấy toàn bộ sinh viên
 router.get("/", async (req, res) => {
   try {
     const students = await Student.find();
     res.json(students);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ message: err.message });
   }
 });
 
-// 🟢 Thêm sinh viên mới
+// ➕ Thêm sinh viên mới
 router.post("/", async (req, res) => {
   try {
-    const student = await Student.create(req.body);
-    res.status(201).json(student);
+    const newStudent = new Student(req.body);
+    await newStudent.save();
+    res.status(201).json(newStudent);
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    console.error("Lỗi thêm sinh viên:", err);
+    res.status(500).json({ message: "Không thể thêm sinh viên" });
   }
 });
 
-// 🟢 Xóa sinh viên theo ID
+// 🗑️ Xóa sinh viên
 router.delete("/:id", async (req, res) => {
   try {
     await Student.findByIdAndDelete(req.params.id);
     res.json({ message: "Đã xóa sinh viên" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+export default router;
