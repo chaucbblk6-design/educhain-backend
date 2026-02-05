@@ -10,7 +10,7 @@ const app = express();
 
 // ✅ Middleware
 app.use(cors({
-  origin: "*", // Cho phép frontend truy cập từ bất kỳ domain nào
+  origin: "*",
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type"],
 }));
