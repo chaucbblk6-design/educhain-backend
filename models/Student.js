@@ -1,17 +1,12 @@
 import mongoose from "mongoose";
 
-const studentSchema = new mongoose.Schema({
+const teacherSchema = new mongoose.Schema({
   fullName: { type: String, required: true },
-  studentId: { type: String, required: true, unique: true },
-  className: { type: String },
+  teacherId: { type: String, required: true, unique: true },
+  department: { type: String }, // ví dụ: CNTT, Toán, Vật lý
   email: { type: String, required: true, unique: true },
-  role: {
-    type: String,
-    enum: ["Sinh viên", "Giảng viên", "Admin"],
-    default: "Sinh viên"
-  },
+  role: { type: String, default: "Giảng viên" },
   createdAt: { type: Date, default: Date.now }
 });
 
-const Student = mongoose.model("Student", studentSchema);
-export default Student;
+export default mongoose.model("Teacher", teacherSchema);
