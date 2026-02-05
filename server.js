@@ -2,29 +2,27 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import studentRoutes from "./routes/studentRoutes.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 
-app.use(cors({
-  origin: "*",
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type"],
-}));
-
+// ✅ Middleware
+app.use(cors());
 app.use(express.json());
 
 // ✅ Kết nối MongoDB Atlas
-mongoose.connect(
-  "mongodb+srv://admin:orpk0DDYd0XrPaKB@student-management.m8jm0pj.mongodb.net/studentdb?retryWrites=true&w=majority"
-)
-  .then(() => console.log("✅ Kết nối MongoDB thành công"))
-  .catch((err) => console.error("❌ Lỗi kết nối MongoDB:", err));
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log("✅ Đã kết nối MongoDB thành công"))
+.catch((err) => console.error("❌ Lỗi kết nối MongoDB:", err));
 
+// ✅ Routes
 app.use("/api/students", studentRoutes);
 
-app.get("/", (req, res) => {
-  res.send("EduChain backend hoạt động 🚀");
-});
-
+// ✅ Server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`✅ Server đang chạy tại cổng ${PORT}`));
+app.listen(PORT, () => console.log(`🚀 Server chạy tại cổng ${PORT}`));
