@@ -20,15 +20,34 @@ router.post("/", async (req, res) => {
     await newStudent.save();
     res.status(201).json(newStudent);
   } catch (err) {
-    console.error("Lỗi thêm sinh viên:", err);
+    console.error("❌ Lỗi thêm sinh viên:", err);
     res.status(500).json({ message: "Không thể thêm sinh viên" });
+  }
+});
+
+// ✏️ Cập nhật thông tin sinh viên
+router.put("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updatedStudent = await Student.findByIdAndUpdate(id, req.body, {
+      new: true,          // trả về bản ghi sau khi update
+      runValidators: true // đảm bảo validate model
+    });
+    if (!updatedStudent) {
+      return res.status(404).json({ message: "Không tìm thấy sinh viên" });
+    }
+    res.json(updatedStudent);
+  } catch (err) {
+    console.error("❌ Lỗi cập nhật sinh viên:", err);
+    res.status(500).json({ message: "Không thể cập nhật sinh viên" });
   }
 });
 
 // 🗑️ Xóa sinh viên
 router.delete("/:id", async (req, res) => {
   try {
-    await Student.findByIdAndDelete(req.params.id);
+    const deleted = await Student.findByIdAndDelete(req.params.id);
+    if (!deleted) return res.status(404).json({ message: "Không tìm thấy sinh viên" });
     res.json({ message: "Đã xóa sinh viên" });
   } catch (err) {
     res.status(500).json({ message: err.message });
