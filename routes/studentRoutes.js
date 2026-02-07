@@ -13,12 +13,12 @@ router.get("/", async (req, res) => {
   }
 });
 
-// ➕ Thêm sinh viên mới
+//  Thêm sinh viên mới
 router.post("/", async (req, res) => {
   try {
     const { fullName, studentId, className, email, role } = req.body;
 const newStudent = new Student({
-  name: fullName, // ánh xạ đúng field trong MongoDB
+  name: fullName, 
   studentId,
   className,
   email,
@@ -33,7 +33,7 @@ const newStudent = new Student({
   }
 });
 
-// ✏️ Cập nhật thông tin sinh viên
+//  Cập nhật thông tin sinh viên
 router.put("/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -51,7 +51,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// 🗑️ Xóa sinh viên
+//  Xóa sinh viên
 router.delete("/:id", async (req, res) => {
   try {
     const deleted = await Student.findByIdAndDelete(req.params.id);
